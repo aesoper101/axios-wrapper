@@ -1,6 +1,6 @@
 {
   "name": "@aesoper/axios-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/axios-wrapper.es.js",
   "types": "dist/types/index.d.ts",
   "private": false,
@@ -21,7 +21,8 @@
     "clean:dist": "rimraf dist",
     "pub": "cd dist && npm publish --registry=http://registry.npmjs.org --access=public && cd ..",
     "unpub": "npm unpublish axios-wrapper --force --registry=http://registry.npmjs.org",
-    "prelink": "cd dist && yarn link && cd .. && yarn link @aesoper/axios-wrapper"
+    "prelink": "cd dist && yarn link && cd .. && yarn link @aesoper/axios-wrapper",
+    "unlink": "yarn link && yarn unlink @aesoper/axios-wrapper"
   },
   "dependencies": {
     "vue": "^3.2.6",

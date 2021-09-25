@@ -1,4 +1,10 @@
-import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenStatic } from "axios";
+import Axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenStatic,
+} from "axios";
 import { APIResult } from "./types";
 
 interface AxiosInterceptor<V, T = V> {
@@ -14,13 +20,19 @@ export interface AxiosInterceptorConfig {
   responseInterceptor?: AxiosResponseInterceptor[];
 }
 
-export class AxiosRequest {
+export type RequestConfig = AxiosRequestConfig;
+
+export type HttpError = AxiosError;
+
+export type Config = RequestConfig & AxiosInterceptorConfig;
+
+export class HttpRequest {
   private readonly axiosInstance: AxiosInstance;
   // axios取消对象
   private cancelToken: CancelTokenStatic = Axios.CancelToken;
   private source = this.cancelToken.source();
 
-  constructor(config: AxiosRequestConfig & AxiosInterceptorConfig) {
+  constructor(config: Config) {
     const { requestInterceptor, responseInterceptor, ...axiosConfig } = config;
     this.axiosInstance = Axios.create(axiosConfig);
 
@@ -49,47 +61,35 @@ export class AxiosRequest {
     });
   }
 
-  public getUri(config?: AxiosRequestConfig): string {
+  public getUri(config?: RequestConfig): string {
     return this.axiosInstance.getUri(config);
   }
 
-  public request<T, B = APIResult<T>>(config: AxiosRequestConfig): Promise<B> {
+  public request<T, B = APIResult<T>>(config: RequestConfig): Promise<B> {
     return this.axiosInstance.request(config);
   }
 
-  public get<T, B = APIResult<T>>(url: string, config?: AxiosRequestConfig): Promise<B> {
+  public get<T, B = APIResult<T>>(url: string, config?: RequestConfig): Promise<B> {
     return this.axiosInstance.get(url, config);
   }
 
-  public delete<T, B = APIResult<T>>(url: string, config?: AxiosRequestConfig): Promise<B> {
+  public delete<T, B = APIResult<T>>(url: string, config?: RequestConfig): Promise<B> {
     return this.axiosInstance.delete(url, config);
   }
 
-  public head<T, B = APIResult<T>>(url: string, config?: AxiosRequestConfig): Promise<B> {
+  public head<T, B = APIResult<T>>(url: string, config?: RequestConfig): Promise<B> {
     return this.axiosInstance.head(url, config);
   }
 
-  public post<T, D, B = APIResult<T>>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig
-  ): Promise<B> {
+  public post<T, D, B = APIResult<T>>(url: string, data?: D, config?: RequestConfig): Promise<B> {
     return this.axiosInstance.post(url, data, config);
   }
 
-  public put<T, D, B = APIResult<T>>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig
-  ): Promise<B> {
+  public put<T, D, B = APIResult<T>>(url: string, data?: D, config?: RequestConfig): Promise<B> {
     return this.axiosInstance.put(url, data, config);
   }
 
-  public patch<T, D, B = APIResult<T>>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig
-  ): Promise<B> {
+  public patch<T, D, B = APIResult<T>>(url: string, data?: D, config?: RequestConfig): Promise<B> {
     return this.axiosInstance.patch(url, data, config);
   }
 

@@ -5,10 +5,9 @@ wrapper for Axios.
 # Using
 
 ```typescript
-import { AxiosError, AxiosRequestConfig } from "axios";
-import { AxiosRequest, AxiosInterceptorConfig } from "@aesoper/axios-wrapper";
+import { HttpRequest, Config, AxiosInterceptorConfig, HttpError } from "@aesoper/axios-wrapper";
 
-const config: AxiosRequestConfig = {
+const config: Config = {
   // baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
   // 3000ms
@@ -36,7 +35,7 @@ const interceptors: AxiosInterceptorConfig = {
   responseInterceptor: [
     {
       onFulfilled: (value) => Promise.resolve(value),
-      onRejected: (error: AxiosError) => console.log(111, error.message),
+      onRejected: (error: HttpError) => console.log(111, error.message),
     },
     {
       onFulfilled: (value) => Promise.resolve(value),
@@ -45,7 +44,7 @@ const interceptors: AxiosInterceptorConfig = {
   ],
 };
 
-const http = new AxiosRequest({ ...config, ...interceptors });
+const http = new HttpRequest({ ...config, ...interceptors });
 
 http.get("http://xxxx.com/");
 ```

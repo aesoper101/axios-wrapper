@@ -1,10 +1,10 @@
 <script setup lang="ts">
   // This starter template is using Vue 3 <script setup> SFCs
   // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-  import { AxiosError, AxiosRequestConfig } from "axios";
-  import { AxiosRequest, AxiosInterceptorConfig } from "@aesoper/axios-wrapper";
 
-  const config: AxiosRequestConfig = {
+  import { HttpRequest, Config, AxiosInterceptorConfig, HttpError } from "@aesoper/axios-wrapper";
+
+  const config: Config = {
     // baseURL: import.meta.env.VITE_BASE_URL,
     withCredentials: true,
     // 3000ms
@@ -32,7 +32,7 @@
     responseInterceptor: [
       {
         onFulfilled: (value) => Promise.resolve(value),
-        onRejected: (error: AxiosError) => console.log(111, error.message),
+        onRejected: (error: HttpError) => console.log(111, error.message),
       },
       {
         onFulfilled: (value) => Promise.resolve(value),
@@ -41,7 +41,7 @@
     ],
   };
 
-  const http = new AxiosRequest({ ...config, ...interceptors });
+  const http = new HttpRequest({ ...config, ...interceptors });
 
   http.get("http://xxxx.com/");
 </script>
