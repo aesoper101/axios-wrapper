@@ -13,15 +13,10 @@ const external = function (id: string) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  resolve: {
-    alias: {
-      "vue-types": "vue-types/shim",
-    },
-  },
   build: {
     lib: {
       entry: path.resolve(__dirname, "./packages/index.ts"),
-      name: "BeeMiniH5",
+      name: "AxiosWrapper",
     },
     rollupOptions: {
       // 请确保外部化那些你的库中不需要的依赖

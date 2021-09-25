@@ -4,11 +4,27 @@ wrapper for Axios.
 
 # Using
 
-```typescript
-import { HttpRequest, Config, AxiosInterceptorConfig, HttpError } from "@aesoper/axios-wrapper";
+## init axios in main.ts
 
+```typescript
 const config: Config = {
   // baseURL: import.meta.env.VITE_BASE_URL,
+  withCredentials: true,
+  // 3000ms
+  timeout: 3000,
+};
+
+setUpHttp(config);
+```
+
+OR
+
+```typescript
+import { createApp } from "vue";
+import App from "./App.vue";
+import AxiosPlugin, { Config, AxiosInterceptorConfig, HttpError } from "@aesoper/axios-wrapper";
+
+const config: Config = {
   withCredentials: true,
   // 3000ms
   timeout: 3000,
@@ -44,7 +60,15 @@ const interceptors: AxiosInterceptorConfig = {
   ],
 };
 
-const http = new HttpRequest({ ...config, ...interceptors });
+createApp(App)
+  .use(AxiosPlugin, { ...config, ...interceptors })
+  .mount("#app");
+```
+
+Now you can call this function `useClient` anywhere
+
+```typescript
+const http = useClient();
 
 http.get("http://xxxx.com/");
 ```
