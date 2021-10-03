@@ -3,12 +3,11 @@ import { AxiosRequestInterceptor } from "../axios-wrapper";
 type TokenGetter = string | (() => string);
 
 export function BearerTokenInterceptor(getter: TokenGetter): AxiosRequestInterceptor {
-  const token = typeof getter === "string" ? getter : getter();
-
   return {
     onFulfilled: (config) => {
+      const token = typeof getter === "string" ? getter : getter();
       if (token) config.headers["Authorization"] = `Bearer ${token}`;
-      return config;
+      return Promise.resolve(config);
     },
   };
 }
